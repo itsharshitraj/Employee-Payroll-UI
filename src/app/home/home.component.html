@@ -1,0 +1,57 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Person Details</h2>
+    
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-primary" (click)="openForm()" (click)="setEdit(false)">
+        <i class="fa fa-plus"></i> Add Person
+      </button>
+    </div>
+  <table class="table --bs-white">
+      <thead class="thread-dark">
+        <tr>
+          <th>ProfilePic</th>
+          <th>Fullname</th>
+          <th>Gender</th>
+          <th>Departments</th>
+          <th>Salary</th>
+          <th>Start Date</th>
+          <th>Note</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let person of Payrolls | keyvalue; let i = index">
+          <td>
+            <img [src]="person.value.profilePic"
+              style="width: 50px; height: auto;"
+            >
+          </td>
+          <td>{{ person.value.name }}</td>
+          <td>{{ person.value.gender }}</td>
+          <td style="color:crimson;font-family:monospace;">{{ person.value.departments }}</td>
+          <td>{{ person.value.salary }}</td>
+          <td>{{ dateformater(person.value.startdate) }}</td>
+          <td>{{ person.value.note }}</td>
+          <td>        
+            <button class="btn btn-outline-secondary btn-sm bg-light" (click)="editPayroll(person.value)" (click)="openForm()" (click)="setEdit(true)">
+              edit
+            </button>
+            <button class="btn btn-outline-danger btn-sm ms-2" (click)="deletePayroll(person.value)">
+              delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+<div class="overlay" *ngIf="getForm()" (click)="closeForm()" (click)="setEdit(false)"></div>
+<div class="popup-container" >
+  <app-form-component 
+  *ngIf="getForm()" 
+  [editPayrollData]="selectedPayroll" 
+  (formSubmitted)="addNewPerson($event)">
+</app-form-component>
+
+</div>
